@@ -1,7 +1,7 @@
 # RoboSchool
 
-[![Build Status](https://travis-ci.com/acntech/UKA19-sommerprosjekt.svg?branch=master)](https://travis-ci.com/acntech/UKA19-sommerprosjekt.svg)
-[![codecov](https://codecov.io/gh/fabiansd/UKA19-sommerprosjekt/branch/master/graph/badge.svg?token=vHIWuOEtHF)](https://codecov.io/gh/fabiansd/UKA19-sommerprosjekt)
+[![Build Status](https://travis-ci.com/fabiansd/RoboSchool.svg?branch=master)](https://travis-ci.com/fabiansd/RoboSchool.svg)
+[![codecov](https://codecov.io/gh/fabiansd/RoboSchool/branch/master/graph/badge.svg)](https://codecov.io/gh/fabiansd/RoboSchool)
 [![Python](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/)
 [![PEP8](https://img.shields.io/badge/code%20style-PEP8-brightgreen.svg)](https://www.python.org/dev/peps/pep-0008/)
 
