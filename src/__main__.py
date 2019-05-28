@@ -1,4 +1,4 @@
-from project_code.printout import print_image
+from src.printout import print_image
 
 
 def main():
