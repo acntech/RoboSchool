@@ -9,7 +9,7 @@
 
 The status of the automatic tests can be viewed here
 
-> https://travis-ci.com/fabiansd/UKA19-sommerprosjekt
+> https://travis-ci.com/fabiansd/RoboSchool
 
 Test progress and coverage is visualized here
 
