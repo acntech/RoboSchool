@@ -1,6 +1,6 @@
 # RoboSchool
 
-[![Build Status](https://travis-ci.com/acntech/RoboSchool.svg?branch=master)](https://travis-ci.com/acntech/RoboSchool.svg)
+[![Build Status](https://travis-ci.org/acntech/RoboSchool.svg?branch=master)](https://travis-ci.org/acntech/RoboSchool.svg)
 [![codecov](https://codecov.io/gh/acntech/RoboSchool/branch/master/graph/badge.svg)](https://codecov.io/gh/acntech/RoboSchool)
 [![Python](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/)
 [![PEP8](https://img.shields.io/badge/code%20style-PEP8-brightgreen.svg)](https://www.python.org/dev/peps/pep-0008/)
@@ -9,7 +9,7 @@
 
 The status of the automatic tests can be viewed here
 
-> https://travis-ci.com/acntech/RoboSchool
+> https://travis-ci.org/acntech/RoboSchool
 
 Test progress and coverage is visualized here
 
