@@ -9,7 +9,6 @@ class TestPrintout(unittest.TestCase):
 
     def test_print_images(self):
         test_return_message = print_image()
-
         self.assertEqual(self.return_message, test_return_message)
 
 
