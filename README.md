@@ -1,7 +1,7 @@
 # RoboSchool
 
-[![Build Status](https://travis-ci.com/fabiansd/RoboSchool.svg?branch=master)](https://travis-ci.com/fabiansd/RoboSchool.svg)
-[![codecov](https://codecov.io/gh/fabiansd/RoboSchool/branch/master/graph/badge.svg)](https://codecov.io/gh/fabiansd/RoboSchool)
+[![Build Status](https://travis-ci.com/acntech/RoboSchool.svg?branch=master)](https://travis-ci.com/acntech/RoboSchool.svg)
+[![codecov](https://codecov.io/gh/acntech/RoboSchool/branch/master/graph/badge.svg)](https://codecov.io/gh/acntech/RoboSchool)
 [![Python](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/)
 [![PEP8](https://img.shields.io/badge/code%20style-PEP8-brightgreen.svg)](https://www.python.org/dev/peps/pep-0008/)
 
@@ -9,16 +9,16 @@
 
 The status of the automatic tests can be viewed here
 
-> https://travis-ci.com/fabiansd/RoboSchool
+> https://travis-ci.com/acntech/RoboSchool
 
 Test progress and coverage is visualized here
 
-> https://codecov.io/gh/fabiansd/UKA19-sommerprosjekt
-
+> https://codecov.io/gh/acntech/RoboSchool
 The docker image is automatically pushed to and updated if the tests 
 pass
 
 > https://cloud.docker.com/repository/docker/fabiansd/uka19_sommerprosjekt_docker/builds
+
 
 ## Usage
 
