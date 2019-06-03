@@ -19,6 +19,7 @@ pass
 
 > https://cloud.docker.com/repository/docker/fabiansd/uka19_sommerprosjekt_docker/builds
 
+
 ## Usage
 
 For å kjøre applikasjonen på lokalt miljø: 
