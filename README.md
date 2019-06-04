@@ -20,21 +20,29 @@ pass
 > https://cloud.docker.com/repository/docker/fabiansd/uka19_sommerprosjekt_docker/builds
 
 
+## Omniboard
+
+First, the mongoDB image must be pulled and run
+
+> docker run --name some-mongo -d mongo:tag
+
+Then, omniboard and mongo DB must be run and also be able to talk with each other. This can be obtained by starting them on the same docker network. First, create a new docker network or use an existing network
+
+> docker network create omniboard-network
+
+The mongodb container should use the same docker network
+
+> docker run --name some-mongo --net omniboard-network -d mongo:tag
+
+Then run the omniboard network 
+
+> docker run -it --rm -p 9000:9000 --name omniboard --net=omniboard-network vivekratnavel/omniboard -m MONGODB_CONTAINER:27017:sacred
+
 ## Usage
 
-For å kjøre applikasjonen på lokalt miljø: 
+To run the application on a local environment
 
-> `python -m project_code`
+> `python -m src`
 
-For å kjøre applikasjonen på konfigurert Docker miljø må du først, med mindre du allerede har gjorte, nedlaste docker bildet fra Docker hub:
 
-> `docker pull fabiansd/uka19_sommerprosjekt_docker`
-
-Deretter kan applikasjonen kjøres på dette utviklingsmiljøet:
-
-> `docker run --rm --detach fabiansd/uka19_sommerprosjekt_docker`
-
-For å få innsyn i kjøreprosessen:
-
-> `docker run --rm -it fabiansd/uka19_sommerprosjekt_docker`
 
