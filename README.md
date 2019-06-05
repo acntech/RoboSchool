@@ -47,7 +47,11 @@ Go to localhost:8888 and insert the token from the console to log in.
 
 ### Flask application
 
-The flask application can be started up by running:
+The frontend application is implemented with a Flask app and docker image built from /Roboschool with
+
+> docker build -f app/Dockerfile -t fabiansd/roboschool-app .
+
+The application can be started up by running:
 
 > docker run --rm -d -p 9090:9090 fabiansd/roboschool-app
 
