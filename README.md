@@ -21,6 +21,12 @@ pass
 
 ## Docker
 
+### Issues
+
+Setting up a docker volume, i.e. a dynamic connection between a folder on the local host and the container, can be problematic on windows. If docker is unable to establish a volume connection due to shared drivers try the following fix:
+
+https://github.com/Cyb3rWard0g/HELK/issues/79 
+
 ### Omniboard
 
 Omniboard and mongo DB must be run and also be able to talk with each other. This can be obtained by starting them on the same docker network. First, create a new docker network or use an existing network
