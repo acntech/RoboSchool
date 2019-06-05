@@ -19,24 +19,39 @@ pass
 
 > https://cloud.docker.com/repository/docker/fabiansd/uka19_sommerprosjekt_docker/builds
 
+## Docker
 
-## Omniboard
+### Omniboard
 
-First, the mongoDB image must be pulled and run
-
-> docker run --name some-mongo -d mongo:tag
-
-Then, omniboard and mongo DB must be run and also be able to talk with each other. This can be obtained by starting them on the same docker network. First, create a new docker network or use an existing network
+Omniboard and mongo DB must be run and also be able to talk with each other. This can be obtained by starting them on the same docker network. First, create a new docker network or use an existing network
 
 > docker network create omniboard-network
 
-The mongodb container should use the same docker network
+We now have a network on which to run the docker containers. The mongodb and omniboard container should use the same docker network
 
-> docker run --name some-mongo --net omniboard-network -d mongo:tag
+> docker run --rm --name mongo-container --net omniboard-network -d mongo
 
 Then run the omniboard network 
 
-> docker run -it --rm -p 9000:9000 --name omniboard --net=omniboard-network vivekratnavel/omniboard -m MONGODB_CONTAINER:27017:sacred
+> docker run --rm -d -p 9090:9090 --name omniboard --net=omniboard-network vivekratnavel/omniboard -m MONGODB_CONTAINER:27017:sacred
+
+### RL development environment
+
+To start up the RL environment with a jupyter notebook running, write:
+
+> docker run --rm -it -v pwd:/notebooks -p 8888:8888 justheuristic/practical_rl
+
+Go to localhost:8888 and insert the token from the console to log in.
+
+
+
+### Flask application
+
+The flask application can be started up by running:
+
+> docker run --rm -d -p 9000:9000 fabiansd/roboschool-app
+
+Then go to localhost:9000 to see the frontend application
 
 ## Usage
 
