@@ -29,7 +29,7 @@ RUN pip3 install -r /RoboSchool/app/requirements.txt
 COPY ./app /RoboSchool/app
 
 # expose port
-EXPOSE 9000
+EXPOSE 9999
 
 # start app
 CMD [ "python3", "-m", "app" ]

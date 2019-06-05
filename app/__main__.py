@@ -19,4 +19,4 @@ def index():
 
 if __name__ == "__main__":
     ENVIRONMENT_DEBUG = os.environ.get("DEBUG", False)
-    app.run(host='0.0.0.0', port=9000, debug=ENVIRONMENT_DEBUG)
+    app.run(host='0.0.0.0', port=9999, debug=ENVIRONMENT_DEBUG)
