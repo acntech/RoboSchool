@@ -33,7 +33,7 @@ We now have a network on which to run the docker containers. The mongodb and omn
 
 Then run the omniboard network 
 
-> docker run --rm -d -p 9090:9090 --name omniboard --net=omniboard-network vivekratnavel/omniboard -m MONGODB_CONTAINER:27017:sacred
+> docker run --rm -d -p 9000:9000 --name omniboard --net=omniboard-network vivekratnavel/omniboard -m MONGODB_CONTAINER:27017:sacred
 
 ### RL development environment
 
@@ -49,9 +49,9 @@ Go to localhost:8888 and insert the token from the console to log in.
 
 The flask application can be started up by running:
 
-> docker run --rm -d -p 9000:9000 fabiansd/roboschool-app
+> docker run --rm -d -p 9090:9090 fabiansd/roboschool-app
 
-Then go to localhost:9000 to see the frontend application
+Then go to localhost:9090 to see the frontend application
 
 ## Usage
 
