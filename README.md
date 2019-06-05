@@ -53,7 +53,7 @@ The frontend application is implemented with a Flask app and docker image built 
 
 The application can be started up by running:
 
-> docker run --rm -d -p 9090:9090 fabiansd/roboschool-app
+> docker run --rm -d -p 9999:9999 fabiansd/roboschool-app
 
 Then go to localhost:9090 to see the frontend application
 
