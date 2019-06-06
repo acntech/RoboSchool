@@ -21,6 +21,12 @@ pass
 
 ## Docker
 
+Docker has the purpose of creating an environment the different parts of the application can run on. See the docker docs
+
+To enter a container that is running, type
+
+> docker exec -it [container-id] bash
+
 ### Issues
 
 Setting up a docker volume, i.e. a dynamic connection between a folder on the local host and the container, can be problematic on windows. If docker is unable to establish a volume connection due to shared drivers try the following fix:
@@ -62,6 +68,12 @@ The application can be started up by running:
 > docker run --rm -d -p 9999:9999 fabiansd/roboschool-app
 
 Then go to localhost:9090 to see the frontend application
+
+### Docker-compose
+
+Docker-compose is used to start all the docker files for the appliaction and enables you to run a single command to start up everything. Remember to create a network everything can communicate on.
+
+
 
 ## Usage
 
