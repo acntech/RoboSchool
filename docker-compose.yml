@@ -5,14 +5,15 @@ services:
     build:
       context: .
       dockerfile: ./src/Dockerfile
+    command: tail -f /dev/null
     environment:
       - DEBUG=True
-    entrypoint:
-      - "/bin/bash"
     ports:
       - 8888:8888
     volumes:
       - ./src:/RoboSchool/src
+
+
   app:
     build:
       context: .

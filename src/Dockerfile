@@ -66,12 +66,18 @@ RUN pip3 install --upgrade pip==9.0.3 && \
                            keras && \                           
     python3 -m ipykernel.kernelspec
 
-RUN apt-get update && apt-get install -y vim
+
+RUN apt-get update && \
+    apt-get install -y vim && \
+    apt-get install -y tmux
+
 
 EXPOSE 8888
 
 COPY ./src /RoboSchool/src
+#COPY ./data/ignored_results /RoboSchool/data/ignored_results
 
 WORKDIR /RoboSchool
 
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+CMD ["sh", "run_jupyter.sh"]
