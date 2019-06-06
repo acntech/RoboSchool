@@ -6,17 +6,6 @@ def print_image():
     :return:
         validation string
     """
-    print("""\
+    print("Jihaa")
 
-                                           ._ o o
-                                           \_`-)|_
-                                        ,""       \ 
-                                      ,"  ## |   ಠ ಠ. 
-                                    ," ##   ,-\__    `.
-                                  ,"       /     `--._;)
-                                ,"     ## /
-                              ,"   ##    /
-
-
-                        """)
     return "successful print"

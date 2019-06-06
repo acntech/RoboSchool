@@ -66,9 +66,12 @@ RUN pip3 install --upgrade pip==9.0.3 && \
                            keras && \                           
     python3 -m ipykernel.kernelspec
 
+RUN apt-get update && apt-get install -y vim
 
 EXPOSE 8888
 
 COPY ./src /RoboSchool/src
 
+WORKDIR /RoboSchool
 
+ENTRYPOINT ["/bin/bash"]

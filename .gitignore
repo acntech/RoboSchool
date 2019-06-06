@@ -1,3 +1,4 @@
+data/ignored_results/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -7,6 +7,8 @@ services:
       dockerfile: ./src/Dockerfile
     environment:
       - DEBUG=True
+    entrypoint:
+      - "/bin/bash"
     ports:
       - 8888:8888
     volumes:
