@@ -88,5 +88,10 @@ To run the application on a local environment
 
 > `python -m src`
 
+## Project code structure
+
+Cookiecutter
+https://drivendata.github.io/cookiecutter-data-science/ 
+
 
 
