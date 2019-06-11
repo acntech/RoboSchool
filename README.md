@@ -73,6 +73,13 @@ Then go to localhost:9090 to see the frontend application
 
 Docker-compose is used to start all the docker files for the appliaction and enables you to run a single command to start up everything. Remember to create a network everything can communicate on.
 
+To run application with docker-compose:
+
+> docker-compose up -d
+
+To close the application
+
+> docker-compose down
 
 
 ## Usage
@@ -80,6 +87,11 @@ Docker-compose is used to start all the docker files for the appliaction and ena
 To run the application on a local environment
 
 > `python -m src`
+
+## Project code structure
+
+Cookiecutter
+https://drivendata.github.io/cookiecutter-data-science/ 
 
 
 
