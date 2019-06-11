@@ -14,10 +14,10 @@ The status of the automatic tests can be viewed here
 Test progress and coverage is visualized here
 
 > https://codecov.io/gh/acntech/RoboSchool
-The docker image is automatically pushed to and updated if the tests 
-pass
 
-> https://cloud.docker.com/repository/docker/fabiansd/uka19_sommerprosjekt_docker/builds
+Docker images used for development can be found here
+
+> https://hub.docker.com/u/fabiansd
 
 ## Docker
 
