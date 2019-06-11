@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6976d7fa-65d7-4a1b-bf87-273b5bb8e6cd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/dataprocessing/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/dataprocessing/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/dataprocessing/make_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/features/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/features/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/features/printout.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/models/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/models/predict_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/models/train_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/visualization/.gitkeep" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/visualization/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/visualization/test_visualize.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/.gitkeep" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataprocessing/.gitkeep" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataprocessing/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data/make_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataprocessing/make_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_printout.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/visualization/test_printout.py" afterDir="false" />
-    </list>
+    <list default="true" id="6976d7fa-65d7-4a1b-bf87-273b5bb8e6cd" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +9,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.40583554">
+    <splitter split-orientation="horizontal" split-proportion="0.48356402">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
@@ -56,11 +36,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/tests/visualization/test_printout.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="272">
-                  <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-                  <folding>
-                    <element signature="e#0#15#0" expanded="true" />
-                  </folding>
+                <state relative-caret-position="17">
+                  <caret line="1" column="17" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
                 </state>
               </provider>
             </entry>
@@ -233,6 +210,12 @@
             <path>
               <item name="RoboSchool" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="C:\Users\fabian.s.dietrichson\OneDrive - Accenture\1) Training and learning\gitfolder\RoboSchool" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="visualization" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="RoboSchool" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="C:\Users\fabian.s.dietrichson\OneDrive - Accenture\1) Training and learning\gitfolder\RoboSchool" type="442cc68d:ScopeViewTreeModel$RootNode" />
               <item name="tests" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
@@ -327,12 +310,12 @@
       <workItem from="1559035556653" duration="2063000" />
       <workItem from="1559304221549" duration="16970000" />
       <workItem from="1559740321261" duration="25375000" />
-      <workItem from="1560245137173" duration="5640000" />
+      <workItem from="1560245137173" duration="5959000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50048000" />
+    <option name="totallyTimeSpent" value="50367000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="-7" width="1476" height="878" extended-state="6" />
@@ -352,7 +335,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32931727" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.42436412" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -468,11 +451,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/visualization/test_printout.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="17">
+          <caret line="1" column="17" selection-start-line="1" selection-start-column="17" selection-end-line="1" selection-end-column="17" />
         </state>
       </provider>
     </entry>

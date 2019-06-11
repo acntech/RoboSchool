@@ -1,5 +1,5 @@
 import unittest
-from src.visualization.printout import print_image
+from src.features.printout import print_image
 
 
 class TestPrintout(unittest.TestCase):
