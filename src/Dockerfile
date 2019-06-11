@@ -80,4 +80,3 @@ COPY ./src /RoboSchool/src
 WORKDIR /RoboSchool
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
-CMD ["sh", "run_jupyter.sh"]
