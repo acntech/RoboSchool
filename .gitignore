@@ -1,7 +1,6 @@
-/data/ignored_results/*
+.idea/*
 
-/.idea
-/.idea/*
+data/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,5 +1,5 @@
 from sys import platform
-from src.printout import print_image
+from src.features.printout import print_image
 
 
 def main():
