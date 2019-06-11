@@ -33,7 +33,7 @@ Setting up a docker volume, i.e. a dynamic connection between a folder on the lo
 
 https://github.com/Cyb3rWard0g/HELK/issues/79 
 
-### Omniboard
+### Omniboard and mongoDB
 
 Omniboard and mongo DB must be run and also be able to talk with each other. This can be obtained by starting them on the same docker network. First, create a new docker network or use an existing network
 
@@ -47,14 +47,20 @@ Then run the omniboard network
 
 > docker run --rm -d -p 9000:9000 --name omniboard --net=omniboard-network vivekratnavel/omniboard -m MONGODB_CONTAINER:27017:sacred
 
+
 ### RL development environment
 
 To start up the RL environment with a jupyter notebook running, write:
 
 > docker run --rm -it -v pwd:/notebooks -p 8888:8888 justheuristic/practical_rl
 
-Go to localhost:8888 and insert the token from the console to log in.
+Go to localhost:8888 and insert the token from the console to log in. A RL environment image has been made for this projects and can be run by 
 
+> docker run --rm -it -p 8888:8888 fabiansd/rl-env bash
+
+You will then start up a linux container with all the necessary libraries installed. Here you can run python scripts and linux commands, and also start jupyter by typing
+
+> sh /RoboSchool/src/run_jyputer.sh
 
 
 ### Flask application
@@ -71,13 +77,21 @@ Then go to localhost:9090 to see the frontend application
 
 ### Docker-compose
 
-Docker-compose is used to start all the docker files for the appliaction and enables you to run a single command to start up everything. Remember to create a network everything can communicate on.
+Docker-compose is used to start all the docker files for the appliaction and enables you to run a single command to start up everything. I short: it summarizes all the commands above into one file and executes them such that all you have to do is run the docker-compose file and you're good to go.
 
 To run application with docker-compose:
 
 > docker-compose up -d
 
-To close the application
+The running containers can now be viewed with 
+
+> docker ps
+
+To enter the development environment, attach to the src container by copying its ID in the container list and type
+
+> docker exec -it [container-id] bash
+
+To close the containers, i.e. the application, simply type
 
 > docker-compose down
 
@@ -88,10 +102,7 @@ To run the application on a local environment
 
 > `python -m src`
 
-## Project code structure
 
-Cookiecutter
-https://drivendata.github.io/cookiecutter-data-science/ 
 
 
 
