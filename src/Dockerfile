@@ -75,7 +75,7 @@ RUN apt-get update && \
 EXPOSE 8888
 
 COPY ./src /RoboSchool/src
-#COPY ./data/ignored_results /RoboSchool/data/ignored_results
+COPY ./notebooks /RoboSchool/notebooks
 
 WORKDIR /RoboSchool
 
