@@ -18,6 +18,7 @@ services:
     networks:
       - backend
 
+
   app:
     build:
       context: .
@@ -30,6 +31,28 @@ services:
       - ./app:/RoboSchool/app
     networks:
       - backend
+
+
+  mongo:
+    image: mongo:latest
+    container_name: "mongodb"
+    restart: always
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - ./data/db:/dev/db
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+
+
+  omniboard:
+    image: vivekratnavel/omniboard
+    ports:
+      - 9000:9000
+    depends_on:
+      - mongo
 
 networks:
   backend:
