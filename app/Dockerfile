@@ -32,5 +32,4 @@ COPY ./app /RoboSchool/app
 EXPOSE 9999
 
 # start app
-CMD [ "python3", "-m", "app" ]
-
+CMD ["python3", "-m", "app"]

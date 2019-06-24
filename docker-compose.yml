@@ -23,12 +23,13 @@ services:
     build:
       context: .
       dockerfile: ./app/Dockerfile
+
     environment:
       - DEBUG=True
     ports:
       - 9999:9999
-    volumes:
-      - ./app:/RoboSchool/app
+#    volumes:
+#      - ./app:/RoboSchool/app
     networks:
       - backend
 
