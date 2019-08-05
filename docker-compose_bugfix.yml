@@ -1,0 +1,19 @@
+version: "3"
+services:
+
+
+  app:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    ports:
+      - 9999:9999
+    volumes:
+      - ./app:/RoboSchool/app
+    networks:
+      - backend
+
+
+networks:
+  backend:
+    driver: "bridge"

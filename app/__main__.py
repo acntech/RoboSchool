@@ -1,5 +1,4 @@
 from flask import Flask
-from flask import jsonify
 from flask import request
 from flask import render_template
 import os
@@ -10,6 +9,7 @@ app = Flask(__name__)
 ###########
 ### APP ###
 ###########
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
