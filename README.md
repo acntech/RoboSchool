@@ -25,7 +25,7 @@ Docker images used for development can be found here
 
 To get start with development, run ``` docker-compose up -d ``` to start the docker environment that supports the python packages needed. 
 
-To access the environment with a terminal, run '''bash attatch.sh'''
+To access the environment with a terminal, run ``` bash attatch.sh ```
 
 you can edit the code in the local repository on your machine and test the code immediately in the docker image.
 
@@ -35,7 +35,7 @@ You can log the training using a tensorboard object that logs the training resul
 
 To start tensorboard:
 
-''' tensorboard --logdir runs --host localhost '''
+``` tensorboard --logdir runs --host localhost ```
 
 This will start tensorboard on localhost:6006 from the runs folder
 
@@ -45,7 +45,7 @@ Docker has the purpose of creating an environment the different parts of the app
 
 To enter a container that is running, type
 
-> docker exec -it [container-id] bash
+``` docker exec -it [container-id] bash ```
 
 ### Known issues
 
@@ -57,41 +57,41 @@ https://github.com/Cyb3rWard0g/HELK/issues/79
 
 Omniboard and mongo DB must be run and also be able to talk with each other. This can be obtained by starting them on the same docker network. First, create a new docker network or use an existing network
 
-> docker network create omniboard-network
+``` docker network create omniboard-network ```
 
 We now have a network on which to run the docker containers. The mongodb and omniboard container should use the same docker network
 
-> docker run --rm --name mongo-container --net omniboard-network -d mongo
+``` docker run --rm --name mongo-container --net omniboard-network -d mongo ```
 
 Then run the omniboard network 
 
-> docker run --rm -d -p 9000:9000 --name omniboard --net=omniboard-network vivekratnavel/omniboard -m MONGODB_CONTAINER:27017:sacred
+``` docker run --rm -d -p 9000:9000 --name omniboard --net=omniboard-network vivekratnavel/omniboard -m MONGODB_CONTAINER:27017:sacred ```
 
 
 ### RL development environment
 
 To start up the RL environment with a jupyter notebook running, write:
 
-> docker run --rm -it -v pwd:/notebooks -p 8888:8888 justheuristic/practical_rl
+``` docker run --rm -it -v pwd:/notebooks -p 8888:8888 justheuristic/practical_rl ```
 
 Go to localhost:8888 and insert the token from the console to log in. A RL environment image has been made for this projects and can be run by 
 
-> docker run --rm -it -p 8888:8888 fabiansd/rl-env bash
+``` docker run --rm -it -p 8888:8888 fabiansd/rl-env bash ```
 
 You will then start up a linux container with all the necessary libraries installed. Here you can run python scripts and linux commands, and also start jupyter by typing
 
-> sh /RoboSchool/src/run_jyputer.sh
+``` sh /RoboSchool/src/run_jyputer.sh ```
 
 
 ### Flask application
 
 The frontend application is implemented with a Flask app and docker image built from /Roboschool with
 
-> docker build -f app/Dockerfile -t fabiansd/roboschool-app .
+``` docker build -f app/Dockerfile -t fabiansd/roboschool-app . ```
 
 The application can be started up by running:
 
-> docker run --rm -d -p 9999:9999 fabiansd/roboschool-app
+``` docker run --rm -d -p 9999:9999 fabiansd/roboschool-app ```
 
 Then go to localhost:9090 to see the frontend application
 
@@ -101,19 +101,19 @@ Docker-compose is used to start all the docker files for the appliaction and ena
 
 To run application with docker-compose:
 
-> docker-compose up -d
+``` docker-compose up -d ```
 
 The running containers can now be viewed with 
 
-> docker ps
+``` docker ps ```
 
 To enter the development environment, attach to the src container by copying its ID in the container list and type
 
-> docker exec -it [container-id] bash
+``` docker exec -it [container-id] bash ```
 
 To close the containers, i.e. the application, simply type
 
-> docker-compose down
+``` docker-compose down ```
 
 
 
