@@ -11,49 +11,9 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - ./src:/RoboSchool/src
-      - ./data:/RoboSchool/data
-      - ./notebooks:/RoboSchool/notebooks
-      - ./models:/RoboSchool/models
+      - .:/RoboSchool
     networks:
       - backend
-
-
-  app:
-    build:
-      context: .
-      dockerfile: ./app/Dockerfile
-
-    environment:
-      - DEBUG=True
-    ports:
-      - 9999:9999
-#    volumes:
-#      - ./app:/RoboSchool/app
-    networks:
-      - backend
-
-
-  mongo:
-    image: mongo:latest
-    container_name: "mongodb"
-    restart: always
-    environment:
-      - MONGO_DATA_DIR=/data/db
-      - MONGO_LOG_DIR=/dev/null
-    volumes:
-      - ./data/db:/dev/db
-    ports:
-      - 27017:27017
-    command: mongod --smallfiles --logpath=/dev/null # --quiet
-
-
-  omniboard:
-    image: vivekratnavel/omniboard
-    ports:
-      - 9000:9000
-    depends_on:
-      - mongo
 
 networks:
   backend:
