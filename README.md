@@ -29,6 +29,16 @@ To access the environment with a terminal, run '''bash attatch.sh'''
 
 you can edit the code in the local repository on your machine and test the code immediately in the docker image.
 
+## Tensorboard
+
+You can log the training using a tensorboard object that logs the training result and logs by default in a folder called runs in files with names created from a timestamp. 
+
+To start tensorboard:
+
+''' tensorboard --logdir runs --host localhost '''
+
+This will start tensorboard on localhost:6006 from the runs folder
+
 ## Docker
 
 Docker has the purpose of creating an environment the different parts of the application can run on. See the docker docs
