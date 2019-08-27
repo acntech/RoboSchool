@@ -21,6 +21,13 @@ Docker images used for development can be found here
 
 > https://hub.docker.com/u/fabiansd
 
+## Get started
+
+To get start with development, run ''' docker-compose up -d''' to start the docker environment that supports the python packages needed. 
+To access the docker session, attach using the docker exec command (next section)
+
+you can edit the code in the local repository and test it immediately in the docker image.
+
 ## Docker
 
 Docker has the purpose of creating an environment the different parts of the application can run on. See the docker docs
@@ -29,7 +36,7 @@ To enter a container that is running, type
 
 > docker exec -it [container-id] bash
 
-### Issues
+### Known issues
 
 Setting up a docker volume, i.e. a dynamic connection between a folder on the local host and the container, can be problematic on windows. If docker is unable to establish a volume connection due to shared drivers try the following fix:
 
@@ -97,12 +104,6 @@ To close the containers, i.e. the application, simply type
 
 > docker-compose down
 
-
-## Usage
-
-To run the application on a local environment
-
-> `python -m src`
 
 
 
