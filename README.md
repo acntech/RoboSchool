@@ -24,9 +24,10 @@ Docker images used for development can be found here
 ## Get started
 
 To get start with development, run ''' docker-compose up -d''' to start the docker environment that supports the python packages needed. 
-To access the docker session, attach using the docker exec command (next section)
 
-you can edit the code in the local repository and test it immediately in the docker image.
+To access the environment with a terminal, run '''bash attatch.sh'''
+
+you can edit the code in the local repository on your machine and test the code immediately in the docker image.
 
 ## Docker
 
