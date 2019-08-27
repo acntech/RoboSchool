@@ -73,9 +73,10 @@ RUN apt update && \
 
 
 RUN pip3 install pytest
-
+RUN pip3 install tensorboardX
 
 EXPOSE 8888
+EXPOSE 6006
 
 COPY ./src /RoboSchool/src
 COPY ./notebooks /RoboSchool/notebooks
