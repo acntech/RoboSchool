@@ -23,7 +23,7 @@ Docker images used for development can be found here
 
 ## Get started
 
-To get start with development, run ''' docker-compose up -d''' to start the docker environment that supports the python packages needed. 
+To get start with development, run ``` docker-compose up -d ``` to start the docker environment that supports the python packages needed. 
 
 To access the environment with a terminal, run '''bash attatch.sh'''
 
