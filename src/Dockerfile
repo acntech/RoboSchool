@@ -67,9 +67,12 @@ RUN pip3 install --upgrade pip==9.0.3 && \
     python3 -m ipykernel.kernelspec
 
 
-RUN apt-get update && \
-    apt-get install -y vim && \
-    apt-get install -y tmux
+RUN apt update && \
+    apt install -y vim && \
+    apt install -y tmux
+
+
+RUN pip3 install pytest
 
 
 EXPOSE 8888
@@ -78,5 +81,8 @@ COPY ./src /RoboSchool/src
 COPY ./notebooks /RoboSchool/notebooks
 
 WORKDIR /RoboSchool
+
+RUN wget https://raw.githubusercontent.com/yandexdataschool/Practical_RL/master/xvfb
+#RUN ./xvfb start
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
