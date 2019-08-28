@@ -35,6 +35,9 @@ RUN pip3 install --upgrade pip && \
 
 
 # Install from requirements
+#RUN pip3 install --upgrade pip
+#RUN pip3 install pytest
+
 RUN pip3 install --upgrade pip
 COPY requirements.txt /tmp/
 RUN pip3 install --trusted-host pypi.python.org -r /tmp/requirements.txt
