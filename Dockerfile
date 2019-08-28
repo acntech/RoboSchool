@@ -26,15 +26,12 @@ RUN pip3 install --upgrade pip && \
                            gym gym[box2d] gym[atari] \
                            matplotlib \
                            seaborn && \
-    pip3 install --upgrade https://download.pytorch.org/whl/cpu/torch-1.0.1.post2-cp35-cp35m-linux_x86_64.whl \
+    pip3 install --upgrade torch \
                            torchvision \
                            tensorflow \
                            tensorboard \
                            keras && \
     python3 -m ipykernel.kernelspec
-
-                           
-RUN pip install --upgrade  gym_pull ppaquette-gym-doom
 
 
 # Install from requirements
@@ -49,10 +46,9 @@ EXPOSE 8888
 EXPOSE 6006
 
 # Copy the folder structure and content
-COPY ./src /RoboSchool/src
-COPY ./notebooks /RoboSchool/notebooks
-
-WORKDIR /RoboSchool
+#COPY . /RoboSchool
+#
+#WORKDIR /RoboSchool
 
 # Download the display hotfix
 RUN wget https://raw.githubusercontent.com/yandexdataschool/Practical_RL/master/xvfb
