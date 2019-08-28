@@ -2,18 +2,21 @@ version: "3"
 services:
 
   src:
+    # image: fabiansd/rl-env-p37
     build:
       context: .
-      dockerfile: ./src/Dockerfile
+      dockerfile: ./Dockerfile
     command: tail -f /dev/null
     environment:
       - DEBUG=True
     ports:
       - 8888:8888
+      - 6006:6006
     volumes:
       - .:/RoboSchool
     networks:
       - backend
+    container_name: rl-env
 
 networks:
   backend:

@@ -1,1 +1,6 @@
-
+pytest
+numpy
+scipy
+sklearn
+gym
+keras
