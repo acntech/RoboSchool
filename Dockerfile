@@ -15,28 +15,29 @@ RUN apt-get update \
        tmux \
        vim
 
+RUN apt-get update
 
-RUN pip3 install --upgrade pip && \
-    pip3 install --upgrade numpy scipy && \
-    pip3 install --upgrade sklearn \
-                           pytest \
-                           jupyter \
-                           tqdm \
-                           graphviz \
-                           gym gym[box2d] gym[atari] \
-                           matplotlib \
-                           seaborn && \
-    pip3 install --upgrade torch \
-                           torchvision \
-                           tensorflow \
-                           tensorboard \
-                           keras && \
-    python3 -m ipykernel.kernelspec
+RUN pip3 install --upgrade pip
+
+RUN pip3 install numpy \
+                 sklearn \
+                 pytest \
+                 jupyter \
+                 tqdm \
+                 graphviz \
+                 gym gym[box2d] gym[atari] \
+                 matplotlib \
+                 seaborn \
+                 torch \
+                 torchvision \
+                 tensorflow \
+                 tensorboardX \
+                 keras
 
 
-# Install from requirements
-#RUN pip3 install --upgrade pip
-#RUN pip3 install pytest
+#RUN apt-get update
+#RUN pip3 install tensorboardX
+
 
 RUN pip3 install --upgrade pip
 COPY requirements.txt /tmp/

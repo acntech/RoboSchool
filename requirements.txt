@@ -4,3 +4,7 @@ scipy
 sklearn
 gym
 keras
+tensorboardX
+gym
+gym[box2d]
+gym[atari]
