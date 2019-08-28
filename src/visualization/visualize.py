@@ -2,7 +2,7 @@ import math
 from tensorboardX import SummaryWriter
 
 
-if __name__ == "__main__":
+def plot_sin_cos_tan():
     writer = SummaryWriter()
 
     funcs = {"sin": math.sin, "cos": math.cos, "tan": math.tan}
@@ -14,3 +14,5 @@ if __name__ == "__main__":
             writer.add_scalar(name, val, angle)
 
     writer.close()
+
+    print('Sucsessfully written file')

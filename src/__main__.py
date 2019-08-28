@@ -7,7 +7,7 @@ def main():
     Run print function from package
     """
 
-    print_image()
+    print('main')
 
 
 if __name__ == '__main__':

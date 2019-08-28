@@ -44,7 +44,7 @@ class QTableAgent:
         """
         best_value, best_action = None, None
         for action in range(self.env.action_space.n):
-            action_value = self.values.get[(state, action)]
+            action_value = self.values[(state, action)]
             if best_value is None or best_value < action_value:
                 best_value = action_value
                 best_action = action
@@ -90,37 +90,31 @@ class QTableAgent:
         print(self.values)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_env = gym.make(ENV_NAME)
     agent = QTableAgent()
-    writer = SummaryWriter(comment="Q-table")
-
-    agent.print_Q()
-    i=input()
+    writer = SummaryWriter(comment="-q-learning")
 
     iter_no = 0
     best_reward = 0.0
     while True:
         iter_no += 1
         s, a, r, next_s = agent.sample_env()
-        print("s,a,r,next_s")
-        print(s,a,r,next_s)
-        i=input()
         agent.value_update(s, a, r, next_s)
-        agent.print_Q()
-        i=input()
         reward = 0.0
-        exit(0)
+
         for _ in range(TEST_EPISODES):
             reward += agent.play_episode(test_env)
         reward /= TEST_EPISODES
 
         writer.add_scalar("reward", reward, iter_no)
+
         if reward > best_reward:
-            print('Best reward updated {} -> {}'.format(best_reward, reward))
+            print("Best reward updated %.3f -> %.3f" % (best_reward, reward))
             best_reward = reward
-        if reward > 0.8:
-            print('Solved in {} iterations'.format(iter_no))
+        if reward > 0.80:
+            print("Solved in %d iterations!" % iter_no)
             break
+        i=input()
 
     writer.close()
