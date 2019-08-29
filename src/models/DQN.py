@@ -66,7 +66,6 @@ class QNetwork:
                            optimizer=Adam(lr=self.learning_rate,
                            decay=self.learning_rate_decay))
 
-        self.model.summary()
         return self.model
 
     def build_q_CNN(self):

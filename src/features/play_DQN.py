@@ -1,4 +1,5 @@
-def play(agent, env):
+def play(agent):
+    env = agent.return_test_env()
     done = False
     agent.epsilon = 0
     total_reward = 0
@@ -10,4 +11,4 @@ def play(agent, env):
 
         total_reward += reward
 
-    print("Total Reward: {}".format(total_reward))
+    print("TEST: Total Reward: {}".format(total_reward))

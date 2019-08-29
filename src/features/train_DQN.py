@@ -1,9 +1,9 @@
 from statistics import mean
 
 
-def train(agent, env, iterations, episodes):
+def train(agent, iterations, episodes, log=False, record=False):
 
-    total_reward = 0
+    env = agent.return_env()
     total_reward_list, iterations_list = [], []
     agent.experience_replay.warm_up(env)
 
@@ -33,8 +33,22 @@ def train(agent, env, iterations, episodes):
         iterations_list.append(iteration +1)
 
         if episode % 10 == 0:
+            test_reward = agent.test_play(record=False)
+
             print \
-                ("Episode: {} | Average iterations: {} | Average total reward: {} | Epsilon: {} " \
-                  .format(episode, mean(iterations_list), mean(total_reward_list), agent.epsilon))
+                ("Episode: {} | Average iterations: {} | Average total reward: {} | Epsilon: {} | Test reward: {}" \
+                  .format(episode, mean(iterations_list), mean(total_reward_list), agent.epsilon, test_reward))
+
             total_reward_list.clear()
             iterations_list.clear()
+
+            if log: agent.save()
+            # if test_reward >= 200:
+            #     print('The game is solved')
+
+        if log:
+            agent.write_tensorboad(episode,
+                               mean(iterations_list),
+                               mean(total_reward_list),
+                               agent.epsilon)
+

@@ -13,7 +13,7 @@ def load_param_json(env_name):
 
     param_path = current_file_path.joinpath('hyperparameters',
                                             env_name + '.json')
-    parameters = {}
+
     with open(str(param_path), 'r') as f:
         parameters = json.load(f)
     return parameters
