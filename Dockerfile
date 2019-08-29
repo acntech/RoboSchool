@@ -25,14 +25,17 @@ RUN pip3 install numpy \
                  jupyter \
                  tqdm \
                  graphviz \
-                 gym gym[box2d] gym[atari] \
+                 gym \
+                 gym[box2d] \
+                 gym[atari] \
                  matplotlib \
                  seaborn \
                  torch \
                  torchvision \
                  tensorflow \
                  tensorboardX \
-                 keras
+                 keras \
+                 opencv-python
 
 
 #RUN apt-get update

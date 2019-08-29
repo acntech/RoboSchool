@@ -5,6 +5,7 @@ sklearn
 gym
 keras
 tensorboardX
+opencv-python
 gym
 gym[box2d]
 gym[atari]
