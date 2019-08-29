@@ -10,4 +10,4 @@ opencv-python
 gym
 gym[box2d]
 gym[atari]
-gym[atari_py]
+atari_py
