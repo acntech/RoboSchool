@@ -1,0 +1,14 @@
+{
+  "tau" : 0.05,
+  "gamma" : 0.99,
+  "epsilon_init" : 1,
+  "epsilon_decay" : 0.999,
+  "epsilon_minimum": 0.01,
+  "buffer_size" : 2500,
+  "batch_size" : 64,
+  "epochs": 1,
+  "loss_metric" : "mse",
+  "learning_rate" : 0.01,
+  "learning_rate_decay": 0.01,
+  "layers": [24, 24]
+}

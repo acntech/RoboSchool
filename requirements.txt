@@ -3,8 +3,11 @@ numpy
 scipy
 sklearn
 gym
+tensorflow
 keras
 tensorboardX
+opencv-python
 gym
 gym[box2d]
 gym[atari]
+atari_py
