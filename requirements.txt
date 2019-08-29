@@ -3,6 +3,7 @@ numpy
 scipy
 sklearn
 gym
+tensorflow
 keras
 tensorboardX
 opencv-python
