@@ -1,0 +1,49 @@
+{
+    "tau" : 0.05,
+    "gamma" : 0.95,
+    "epsilon_init" : 1,
+    "epsilon_decay" : 0.97,
+    "epsilon_minimum": 0.01,
+    "buffer_size" : 10000,
+    "batch_size" : 32,
+    "epochs": 1,
+    "loss_metric" : "mse",
+    "learning_rate" : 0.01,
+    "learning_rate_decay": 0.01,
+    "layers" :
+    {
+        "input_layer":
+        {
+          "layer": "Conv2D",
+          "filters": 32,
+          "kernel_size" : 8,
+          "strides": 4
+        },
+        "conv1": {
+          "layer": "Conv2D",
+          "filters": 64,
+          "kernel_size": 4,
+          "strides": 2
+        },
+        "conv2":
+        {
+          "layer": "Conv2D",
+          "filters": 64,
+          "kernel_size": 3,
+          "strides": 1
+        },
+        "flatten1":
+        {
+          "layer": "Flatten"
+        },
+        "dense1":
+        {
+          "layer": "Dense",
+          "units": 512
+        },
+        "output_layer": {
+          "layer": "Dense"
+        }
+    },
+    "input_shape": [81, 81, 1]
+}

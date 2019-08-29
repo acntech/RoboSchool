@@ -1,4 +1,4 @@
-from src.features.env_wrappers import make_env
+from src.environment.env_wrappers import make_env
 
 
 def test_make_env():
