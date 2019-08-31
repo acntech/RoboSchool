@@ -26,14 +26,5 @@ def check_available_GPU():
     print(device_lib.list_local_devices())
 
 
-l = []
-
-def start_thread(a):
-    print(f'thread {a}')
-    l.append(a)
-
 if __name__ == '__main__':
-    # print(load_param_json('CartPole-v1'))
-    # check_available_GPU()
-
-
+    check_available_GPU()
