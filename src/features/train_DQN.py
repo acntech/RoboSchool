@@ -10,6 +10,8 @@ TIMEOUT = 40
 def train(agent, iterations, episodes, log=False, record=False):
 
     env = agent.return_env()
+    print(env)
+    print()
     total_reward_list, iterations_list = [], []
     agent.experience_replay.warm_up(env)
 
@@ -68,6 +70,8 @@ def episode_thread(agent, iterations, iterations_list,
                    total_reward_list, time_tag):
 
     env = gym.make(agent.env.spec.id)
+    print('Thread environment')
+    print(env)
     print(f'made gym environment: {agent.env.spec.id}')
     state = env.reset()
     total_reward = 0

@@ -12,7 +12,7 @@ from src.features.experience_buffer import ExperienceReplay
 from src.features.utils import load_param_json
 
 CURRENT_PATH = Path(__file__).resolve().parent
-NN_STORAGE_PATH = CURRENT_PATH.joinpath('agent_storage')
+NN_STORAGE_PATH = CURRENT_PATH.joinpath('agents_storage_folder')
 
 
 # def play(agent):
@@ -80,13 +80,17 @@ class DQNAgent:
     def learn(self):
         # Race protected
         states, actions, rewards, dones, next_states = self.experience_replay.get_batch()
-
+        print(self.target_network.predict(next_states))
+        exit(0)
         # Get Q-values for the next state, Q(next_state), using the target network
         self.target_network_lock.acquire()
         try:
             Q_target = self.target_network.predict(next_states)
         finally:
             self.target_network_lock.release()
+
+        print(Q_target)
+        exit(0)
 
         # Apply Q-learning algorithm  and Q-value for next state to calculate the actual Q-value the Q(state)
         Q_calc = rewards + (self.gamma * np.amax(Q_target,
