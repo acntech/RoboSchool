@@ -18,6 +18,7 @@ def train(agent, iterations, episodes, log=False, record=False):
         for iteration in range(iterations):
 
             action, reward, done, new_state = agent.step(env, state)
+
             agent.experience_replay.add_experience(state, action, reward, done, new_state)
 
             state = new_state
