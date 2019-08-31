@@ -11,3 +11,6 @@ gym
 gym[box2d]
 gym[atari]
 atari_py
+websockets
+asyncio
+
