@@ -1,6 +1,5 @@
 import warnings
 from src.features.train_DQN import train
-from src.features.play_DQN import play
 from src.agents.DQN_agent import DQNAgent
 
 warnings.filterwarnings('ignore')
