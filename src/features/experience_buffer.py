@@ -1,7 +1,7 @@
 import numpy as np
 import random
 from collections import deque, namedtuple
-
+import threading
 
 class ExperienceReplay:
 
@@ -14,6 +14,7 @@ class ExperienceReplay:
                                      field_names=["state", "action",
                                                   "reward", "done",
                                                   "new_state"])
+        self.experience_lock = threading.Lock()
 
     def add_experience(self, state, action, reward, done, new_state):
         e = self.experience(state, action, reward, done, new_state)
@@ -21,11 +22,15 @@ class ExperienceReplay:
 
     def get_batch(self):
 
-        if len(self.experience_buffer) < self.batch_size:
-            experiences = self.experience_buffer
-        else:
-            experiences = random.sample(self.experience_buffer,
-                                        self.batch_size)
+        self.experience_lock.acquire()
+        try:
+            if len(self.experience_buffer) < self.batch_size:
+                experiences = self.experience_buffer
+            else:
+                experiences = random.sample(self.experience_buffer,
+                                            self.batch_size)
+        finally:
+            self.experience_lock.release()
 
         states = np.vstack(
             [e.state for e in experiences if e is not None])

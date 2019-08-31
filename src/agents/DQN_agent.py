@@ -5,6 +5,7 @@ from pathlib import Path
 from tensorboardX import SummaryWriter
 import gym
 import json
+import threading
 
 from src.models.DQN import QNetwork
 from src.features.experience_buffer import ExperienceReplay
@@ -14,20 +15,20 @@ CURRENT_PATH = Path(__file__).resolve().parent
 NN_STORAGE_PATH = CURRENT_PATH.joinpath('agent_storage')
 
 
-def play(agent):
-    env = agent.test_env
-    done = False
-    agent.epsilon = 0
-    total_reward = 0
-    state = env.reset()
-
-    while not done:
-        action, reward, done, new_state = agent.step(env, state)
-        state = new_state
-
-        total_reward += reward
-
-    print("Total Reward: {}".format(total_reward))
+# def play(agent):
+#     env = agent.test_env
+#     done = False
+#     agent.epsilon = 0
+#     total_reward = 0
+#     state = env.reset()
+#
+#     while not done:
+#         action, reward, done, new_state = agent.step(env, state)
+#         state = new_state
+#
+#         total_reward += reward
+#
+#     print("Total Reward: {}".format(total_reward))
 
 class DQNAgent:
 
@@ -65,6 +66,11 @@ class DQNAgent:
         self.gamma = self.parameters["gamma"]
         self.epochs = self.parameters["epochs"]
 
+        # Concurrent locks
+        self.local_network_lock = threading.Lock()
+        self.target_network_lock = threading.Lock()
+        self.target_network_lock = threading.Lock()
+
     def return_env(self):
         return self.env
 
@@ -72,34 +78,56 @@ class DQNAgent:
         return self.test_env
 
     def learn(self):
+        # Race protected
         states, actions, rewards, dones, next_states = self.experience_replay.get_batch()
 
         # Get Q-values for the next state, Q(next_state), using the target network
-        Q_target = self.target_network.predict(next_states)
+        self.target_network_lock.acquire()
+        try:
+            Q_target = self.target_network.predict(next_states)
+        finally:
+            self.target_network_lock.release()
 
         # Apply Q-learning algorithm  and Q-value for next state to calculate the actual Q-value the Q(state)
         Q_calc = rewards + (self.gamma * np.amax(Q_target,
                             axis=1).reshape(-1,1) * (1 - dones))
 
         # Calculate Q-value Q(state) we predicted earlier using the local network
-        Q_local = self.local_network.predict(states)
+        self.local_network_lock.acquire()
+        try:
+            Q_local = self.local_network.predict(states)
+        finally:
+            self.local_network_lock.release()
 
         # Update Q_values with "correct" Q-values calculated using the Q-learning algorithm
         for row, col_id in enumerate(actions):
             Q_local[row, col_id.item()] = Q_calc[row]
 
         # Train network by minimizing the difference between Q_local and modified Q_local
-        self.local_network.fit(states, Q_local, epochs=self.epochs,
-                               verbose=0)
+        self.local_network_lock.acquire()
+        try:
+            self.local_network.fit(states, Q_local, epochs=self.epochs,
+                                   verbose=0)
+        finally:
+            self.local_network_lock.release()
 
     def update_target_network(self):
-        local_weights = self.local_network.get_weights()
-        target_weights = self.target_network.get_weights()
+        self.local_network_lock.acquire()
+        try:
+            local_weights = self.local_network.get_weights()
+        finally:
+            self.local_network_lock.release()
 
-        for i in range(len(local_weights)):
-            target_weights[i] = self.tau * local_weights[i] + (
-                        1 - self.tau) * target_weights[i]
-        self.target_network.set_weights(target_weights)
+        self.target_network_lock.acquire()
+        try:
+            target_weights = self.target_network.get_weights()
+
+            for i in range(len(local_weights)):
+                target_weights[i] = self.tau * local_weights[i] + (
+                            1 - self.tau) * target_weights[i]
+            self.target_network.set_weights(target_weights)
+        finally:
+            self.target_network_lock.release()
 
     def update_epsilon(self):
         if self.epsilon >= self.epsilon_minimum:
@@ -110,8 +138,12 @@ class DQNAgent:
         if self.epsilon > np.random.uniform():
             action = self.env.action_space.sample()
         else:
-            action = np.argmax(
-                self.local_network.predict(np.array([state])))
+            self.local_network_lock.acquire()
+            try:
+                action = np.argmax(
+                    self.local_network.predict(np.array([state])))
+            finally:
+                self.local_network_lock.release()
 
         return action
 
