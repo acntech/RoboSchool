@@ -35,7 +35,7 @@ You can log the training using a tensorboard object that logs the training resul
 
 To start tensorboard:
 
-``` tensorboard --logdir runs --host localhost ```
+``` tensorboard --logdir src/agents/agent_storage ```
 
 This will start tensorboard on localhost:6006 from the runs folder
 
