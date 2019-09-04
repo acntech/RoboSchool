@@ -93,63 +93,36 @@ class DQNAgent:
         states, actions, rewards, dones, next_states = self.experience_replay.get_batch()
 
         # Get Q-values for the next state, Q(next_state), using the target network
-        self.target_network_lock.acquire()
-        try:
-            with self.graph.as_default():
-                Q_target = self.target_network.predict(next_states)
-        finally:
-            self.target_network_lock.release()
-
-        print('GOT TO THIS POINT')
+        Q_target = self.target_network.predict(next_states)
 
         # Apply Q-learning algorithm  and Q-value for next state to calculate the actual Q-value the Q(state)
         Q_calc = rewards + (self.gamma * np.amax(Q_target,
                             axis=1).reshape(-1,1) * (1 - dones))
 
         # Calculate Q-value Q(state) we predicted earlier using the local network
-        self.local_network_lock.acquire()
-        try:
-            with self.graph.as_default():
-                Q_local = self.local_network.predict(states)
-        finally:
-            self.local_network_lock.release()
+        Q_local = self.local_network.predict(states)
+
 
         # Update Q_values with "correct" Q-values calculated using the Q-learning algorithm
         for row, col_id in enumerate(actions):
             Q_local[row, col_id.item()] = Q_calc[row]
-        print(Q_local)
-        print('checkoint')
-        # Train network by minimizing the difference between Q_local and modified Q_local
-        self.local_network_lock.acquire()
-        try:
-            with self.graph.as_default():
-                self.local_network.fit(states,
-                                       Q_local,
-                                       epochs=self.epochs,
-                                       verbose=0)
-        finally:
-            self.local_network_lock.release()
 
-        print('Reached here')
-        exit(0)
+        # Train network by minimizing the difference between Q_local and modified Q_local
+        self.local_network.fit(states,
+                               Q_local,
+                               epochs=self.epochs,
+                               verbose=0)
 
     def update_target_network(self):
-        self.local_network_lock.acquire()
-        try:
-            local_weights = self.local_network.get_weights()
-        finally:
-            self.local_network_lock.release()
 
-        self.target_network_lock.acquire()
-        try:
-            target_weights = self.target_network.get_weights()
+        local_weights = self.local_network.get_weights()
 
-            for i in range(len(local_weights)):
-                target_weights[i] = self.tau * local_weights[i] + (
-                            1 - self.tau) * target_weights[i]
-            self.target_network.set_weights(target_weights)
-        finally:
-            self.target_network_lock.release()
+        target_weights = self.target_network.get_weights()
+
+        for i in range(len(local_weights)):
+            target_weights[i] = self.tau * local_weights[i] + (
+                        1 - self.tau) * target_weights[i]
+        self.target_network.set_weights(target_weights)
 
     def update_epsilon(self):
         if self.epsilon >= self.epsilon_minimum:
@@ -162,6 +135,7 @@ class DQNAgent:
         else:
             self.local_network_lock.acquire()
             try:
+
                 action = np.argmax(
                     self.local_network.predict(np.array([state])))
             finally:

@@ -1,23 +1,24 @@
 from statistics import mean
+from src.features.utils import threadDoneCounter
 import threading
 import time
 import gym
 
-NUM_THREADS = 2
+NUM_THREADS = 4
 TIMEOUT = 40
 
 
 def train(agent, iterations, episodes, log=False, record=False):
 
     env = agent.return_env()
-    print(env)
-    print()
     total_reward_list, iterations_list = [], []
     agent.experience_replay.warm_up(env)
 
     print(f'Starting to train with {NUM_THREADS} threads')
 
     for episode in range(episodes):
+
+        t_counter = threadDoneCounter(NUM_THREADS)
 
         if (episode != 0):
             agent.update_epsilon()
@@ -31,19 +32,24 @@ def train(agent, iterations, episodes, log=False, record=False):
                                        iterations,
                                        iterations_list,
                                        total_reward_list,
-                                       time_tag))
+                                       time_tag,
+                                       t_counter))
+            # print(f'starting thread {t} in episode {episode} with {iterations} iterations')
             t.start()
-            print(f'started thread {t} in episode {episode}')
+
+
+        # Train on the generated experience while the threads are
+        # generating experience data. Stop the learning when all
+        # threads are finished. This is a thread join
+        num_learn = 50
+        while (not t_counter.is_done()) or (num_learn >= 0):
+            agent.learn()
+            agent.update_target_network()
+            num_learn -= 1
 
         train_thread = threading.current_thread()
+        print(train_thread)
 
-        # Wait for all threads to finish and terminate
-        for t in threading.enumerate():
-            if t is train_thread:
-                continue
-            t.join()
-
-        print(f'Treads has finished')
 
         if episode % 10 == 0:
             test_reward = agent.test_play(record=False)
@@ -67,12 +73,9 @@ def train(agent, iterations, episodes, log=False, record=False):
 
 
 def episode_thread(agent, iterations, iterations_list,
-                   total_reward_list, time_tag):
+                   total_reward_list, time_tag, t_counter):
 
     env = gym.make(agent.env.spec.id)
-    print('Thread environment')
-    print(env)
-    print(f'made gym environment: {agent.env.spec.id}')
     state = env.reset()
     total_reward = 0
 
@@ -87,9 +90,6 @@ def episode_thread(agent, iterations, iterations_list,
 
         state = new_state
 
-        # Race protected
-        agent.learn()
-        agent.update_target_network()
         total_reward += reward
 
         if done:
@@ -100,4 +100,8 @@ def episode_thread(agent, iterations, iterations_list,
 
     total_reward_list.append(total_reward)
     iterations_list.append(iteration + 1)
+
+    t_counter.increment()
+
+    print('thread finished')
 
