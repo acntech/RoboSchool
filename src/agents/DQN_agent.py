@@ -100,7 +100,12 @@ class DQNAgent:
                             axis=1).reshape(-1,1) * (1 - dones))
 
         # Calculate Q-value Q(state) we predicted earlier using the local network
-        Q_local = self.local_network.predict(states)
+        self.local_network_lock.acquire()
+        try:
+            with self.graph.as_default():
+                Q_local = self.local_network.predict(states)
+        finally:
+            self.local_network_lock.release()
 
 
         # Update Q_values with "correct" Q-values calculated using the Q-learning algorithm
@@ -108,10 +113,14 @@ class DQNAgent:
             Q_local[row, col_id.item()] = Q_calc[row]
 
         # Train network by minimizing the difference between Q_local and modified Q_local
-        self.local_network.fit(states,
-                               Q_local,
-                               epochs=self.epochs,
-                               verbose=0)
+        self.local_network_lock.acquire()
+        try:
+            self.local_network.fit(states,
+                                   Q_local,
+                                   epochs=self.epochs,
+                                   verbose=0)
+        finally:
+            self.local_network_lock.release()
 
     def update_target_network(self):
 
@@ -129,15 +138,13 @@ class DQNAgent:
             self.epsilon *= self.epsilon_decay
 
     def select_action(self, state):
-
         if self.epsilon > np.random.uniform():
             action = self.env.action_space.sample()
         else:
             self.local_network_lock.acquire()
             try:
-
-                action = np.argmax(
-                    self.local_network.predict(np.array([state])))
+                with self.graph.as_default():
+                    action = np.argmax(self.local_network.predict(np.array([state])))
             finally:
                 self.local_network_lock.release()
 
