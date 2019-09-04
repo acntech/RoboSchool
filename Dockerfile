@@ -52,10 +52,6 @@ RUN rm /tmp/requirements.txt
 EXPOSE 8888
 EXPOSE 6006
 
-# Copy the folder structure and content
-#COPY . /RoboSchool
-#
-#WORKDIR /RoboSchool
 
 # Download the display hotfix
 RUN wget https://raw.githubusercontent.com/yandexdataschool/Practical_RL/master/xvfb

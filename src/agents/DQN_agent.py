@@ -153,15 +153,11 @@ class DQNAgent:
                                episode)
         self.writer.add_scalar("Epsilon", epsilon, episode)
 
-    def test_play(self, record=False):
+    def test_play(self):
         env = self.test_env
-
-        if record:
-            self.initialize_record()
-            env = self.monitor
-
         done = False
         temp_epsilon = self.epsilon
+
         self.epsilon = 0
         total_reward = 0
         state = env.reset()
@@ -175,6 +171,36 @@ class DQNAgent:
         self.epsilon = temp_epsilon
 
         return total_reward
+
+    def record_test_play(self):
+
+        if type(os.environ.get("DISPLAY")) is not str or len(os.environ.get("DISPLAY")) == 0:
+            os.system("bash ../xvfb start")
+            os.environ["DISPLAY"] = "1"
+
+        env = self.test_env
+        done = False
+        temp_epsilon = self.epsilon
+
+        self.epsilon = 0
+        total_reward = 0
+
+        monitor = gym.wrappers.Monitor(env,
+                                       directory=self.agent_storage_path,
+                                       force=True)
+
+        state = monitor.reset()
+
+        while not done:
+            action, reward, done, new_state = self.step(monitor,
+                                                        state)
+            state = new_state
+            total_reward += reward
+
+        self.epsilon = temp_epsilon
+
+        monitor.close()
+        env.close()
 
     def start_record(self):
         self.record_dir_path = self.agent_storage_path.joinpath('videos')
