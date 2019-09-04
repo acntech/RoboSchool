@@ -18,6 +18,15 @@ services:
       - backend
     container_name: rl-env
 
+  frontend:
+      image: fabiansd/node-bomberman
+      environment:
+        - DEBUG=True
+      ports:
+        - 3000:3000
+      networks:
+        - backend
+      container_name: bomberman
 
 networks:
   backend:
