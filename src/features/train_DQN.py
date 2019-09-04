@@ -47,8 +47,9 @@ def train(agent, iterations, episodes, log=False, record=False):
             agent.update_target_network()
             num_learn -= 1
 
-        train_thread = threading.current_thread()
-        print(train_thread)
+
+        # train_thread = threading.current_thread()
+        # print(train_thread)
 
 
         if episode % 10 == 0:
@@ -102,6 +103,4 @@ def episode_thread(agent, iterations, iterations_list,
     iterations_list.append(iteration + 1)
 
     t_counter.increment()
-
-    print('thread finished')
 
