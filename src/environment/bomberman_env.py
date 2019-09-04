@@ -1,6 +1,6 @@
 from src.socket.socket_client import SocketClient
 import gym
-from typing import Dict, Any
+from typing import Dict, Any, Tuple
 
 class BombermanEnv(gym.Env):
     def __init__(self,
@@ -45,3 +45,15 @@ class BombermanEnv(gym.Env):
         :return:
         """
         return self.client.reset()
+
+    def step(self, action: str) -> Tuple[Dict[str, Any], float, bool, Dict[str, Any]]:
+        """
+        Do step and get next state, reward, done, and info object.
+        :param action: Action to be done.
+        :return: Tuple of (new_state, reward, done, info) where
+            new_state: Dict[str, Any],
+            reward: float,
+            done: bool,
+            info: Dict[str, Any]
+        """
+        return self.client.step(action)

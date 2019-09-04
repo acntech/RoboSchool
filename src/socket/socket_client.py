@@ -134,7 +134,7 @@ class SocketClient:
         :return:
         """
         # TODO in frontend
-        self.sio.emit("set_rewards", rewards)
+        self.sio.emit("SET_REWARDS", rewards)
 
     def set_n_skip_frames(self, n_frames: int):
         """
@@ -145,11 +145,11 @@ class SocketClient:
         :return:
         """
         # TODO in frontend
-        self.sio.emit("n_frames_skip", n_frames)
+        self.sio.emit("N_FRAMES_SKIP", n_frames)
 
     def reset(self) -> Dict[str, Any]:
         # TODO in frontend
-        return self.sio.call(self.RESET)
+        return self.sio.call("RESET")
 
     def set_position(self, position: str) -> None:
         """
@@ -158,7 +158,7 @@ class SocketClient:
         :return:
         """
         # TODO in frontend
-        self.sio.emit("set_position", dict(position=position))
+        self.sio.emit("SET_POSITION", dict(position=position))
 
     def request_state(self):
         """
