@@ -6,6 +6,7 @@ from tensorboardX import SummaryWriter
 import gym
 import json
 import threading
+import tensorflow as tf
 
 from src.models.DQN import QNetwork
 from src.features.experience_buffer import ExperienceReplay
@@ -15,20 +16,27 @@ CURRENT_PATH = Path(__file__).resolve().parent
 NN_STORAGE_PATH = CURRENT_PATH.joinpath('agents_storage_folder')
 
 
-# def play(agent):
-#     env = agent.test_env
-#     done = False
-#     agent.epsilon = 0
-#     total_reward = 0
-#     state = env.reset()
-#
-#     while not done:
-#         action, reward, done, new_state = agent.step(env, state)
-#         state = new_state
-#
-#         total_reward += reward
-#
-#     print("Total Reward: {}".format(total_reward))
+def play(agent):
+    env = agent.test_env
+    done = False
+    agent.epsilon = 0
+    total_reward = 0
+    state = env.reset()
+
+    while not done:
+        action, reward, done, new_state = agent.step(env, state)
+        state = new_state
+
+        total_reward += reward
+
+    print("Total Reward: {}".format(total_reward))
+
+
+
+
+
+
+
 
 class DQNAgent:
 
@@ -57,6 +65,9 @@ class DQNAgent:
         self.target_network = QNetwork(self.env,
                                        self.parameters).build_q_dense_from_json()
 
+        # Fix for threading
+        self.graph = tf.get_default_graph()
+
         self.experience_replay = ExperienceReplay(self.parameters)
 
         self.epsilon = self.parameters["epsilon_init"]
@@ -80,17 +91,16 @@ class DQNAgent:
     def learn(self):
         # Race protected
         states, actions, rewards, dones, next_states = self.experience_replay.get_batch()
-        print(self.target_network.predict(next_states))
-        exit(0)
+
         # Get Q-values for the next state, Q(next_state), using the target network
         self.target_network_lock.acquire()
         try:
-            Q_target = self.target_network.predict(next_states)
+            with self.graph.as_default():
+                Q_target = self.target_network.predict(next_states)
         finally:
             self.target_network_lock.release()
 
-        print(Q_target)
-        exit(0)
+        print('GOT TO THIS POINT')
 
         # Apply Q-learning algorithm  and Q-value for next state to calculate the actual Q-value the Q(state)
         Q_calc = rewards + (self.gamma * np.amax(Q_target,
@@ -99,21 +109,29 @@ class DQNAgent:
         # Calculate Q-value Q(state) we predicted earlier using the local network
         self.local_network_lock.acquire()
         try:
-            Q_local = self.local_network.predict(states)
+            with self.graph.as_default():
+                Q_local = self.local_network.predict(states)
         finally:
             self.local_network_lock.release()
 
         # Update Q_values with "correct" Q-values calculated using the Q-learning algorithm
         for row, col_id in enumerate(actions):
             Q_local[row, col_id.item()] = Q_calc[row]
-
+        print(Q_local)
+        print('checkoint')
         # Train network by minimizing the difference between Q_local and modified Q_local
         self.local_network_lock.acquire()
         try:
-            self.local_network.fit(states, Q_local, epochs=self.epochs,
-                                   verbose=0)
+            with self.graph.as_default():
+                self.local_network.fit(states,
+                                       Q_local,
+                                       epochs=self.epochs,
+                                       verbose=0)
         finally:
             self.local_network_lock.release()
+
+        print('Reached here')
+        exit(0)
 
     def update_target_network(self):
         self.local_network_lock.acquire()
