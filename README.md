@@ -4,7 +4,7 @@ from branch
 
 [![Build Status](https://travis-ci.org/acntech/RoboSchool.svg?branch=master)](https://travis-ci.org/acntech/RoboSchool.svg)
 [![codecov](https://codecov.io/gh/acntech/RoboSchool/branch/master/graph/badge.svg)](https://codecov.io/gh/acntech/RoboSchool)
-[![Python](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/)
+[![Python](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/)
 [![PEP8](https://img.shields.io/badge/code%20style-PEP8-brightgreen.svg)](https://www.python.org/dev/peps/pep-0008/)
 
 > This is a Reinforcement Learning framework with the purpose of experimenting with RL and building and training different agents.
