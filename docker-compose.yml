@@ -6,7 +6,6 @@ services:
     # build:
     #   context: .
     #   dockerfile: ./Dockerfile
-    command: tail -f /dev/null
     environment:
       - DEBUG=True
     ports:
