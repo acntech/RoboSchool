@@ -1,7 +1,7 @@
 from statistics import mean
 
 
-def train(agent, iterations, episodes, log=False, record=False):
+def train(agent, iterations, episodes, log=True):
 
     env = agent.return_env()
     total_reward_list, iterations_list = [], []
@@ -33,8 +33,14 @@ def train(agent, iterations, episodes, log=False, record=False):
         total_reward_list.append(total_reward)
         iterations_list.append(iteration +1)
 
+        if log:
+            agent.write_tensorboad(episode,
+                               mean(iterations_list),
+                               mean(total_reward_list),
+                               agent.epsilon)
+
         if episode % 10 == 0:
-            test_reward = agent.test_play(record=False)
+            test_reward = agent.test_play()
 
             print \
                 ("Episode: {} | Average iterations: {} | Average total reward: {} | Epsilon: {} | Test reward: {}" \
@@ -47,9 +53,5 @@ def train(agent, iterations, episodes, log=False, record=False):
             # if test_reward >= 200:
             #     print('The game is solved')
 
-        if log:
-            agent.write_tensorboad(episode,
-                               mean(iterations_list),
-                               mean(total_reward_list),
-                               agent.epsilon)
 
+    # agent.record_test_play()

@@ -14,7 +14,8 @@ def main():
 
     # Training settings
 
-    episodes = 1
+    episodes = 1000
+
     iterations = 500
 
     dqn_agent = DQNAgent(ENV_NAME)
