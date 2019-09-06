@@ -1,11 +1,11 @@
 import os
-import datetime
 import numpy as np
 from pathlib import Path
 from tensorboardX import SummaryWriter
 import gym
 import json
 
+from src.features.utils import generate_timestamp
 from src.models.DQN import QNetwork
 from src.features.experience_buffer import ExperienceReplay
 from src.features.utils import load_param_json
@@ -13,21 +13,6 @@ from src.features.utils import load_param_json
 CURRENT_PATH = Path(__file__).resolve().parent
 NN_STORAGE_PATH = CURRENT_PATH.joinpath('agent_storage')
 
-
-def play(agent):
-    env = agent.test_env
-    done = False
-    agent.epsilon = 0
-    total_reward = 0
-    state = env.reset()
-
-    while not done:
-        action, reward, done, new_state = agent.step(env, state)
-        state = new_state
-
-        total_reward += reward
-
-    print("Total Reward: {}".format(total_reward))
 
 class DQNAgent:
 
@@ -38,7 +23,7 @@ class DQNAgent:
         self.env = gym.make(ENV_NAME)
         self.test_env = gym.make(ENV_NAME)
 
-        self.timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        self.timestamp = generate_timestamp()
         self.agent_name = self.timestamp + "_" + self.env.spec.id
         self.agent_storage_path = NN_STORAGE_PATH.joinpath(self.agent_name)
 
