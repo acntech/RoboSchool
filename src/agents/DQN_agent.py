@@ -16,9 +16,9 @@ NN_STORAGE_PATH = CURRENT_PATH.joinpath('agent_storage')
 
 class DQNAgent:
 
-    def __init__(self, ENV_NAME):
+    def __init__(self, ENV_NAME, param_file):
 
-        self.parameters = load_param_json(ENV_NAME)
+        self.parameters = load_param_json(param_file)
 
         self.env = gym.make(ENV_NAME)
         self.test_env = gym.make(ENV_NAME)
