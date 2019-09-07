@@ -14,7 +14,7 @@ def main():
 
     # Training settings
 
-    episodes = 1000
+    episodes = 500
 
     iterations = 500
 

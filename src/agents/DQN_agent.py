@@ -35,6 +35,7 @@ class DQNAgent:
 
         self.writer = SummaryWriter(logdir=self.agent_storage_path,
                                     comment='DQN-' + self.env.spec.id)
+        self.write_parameters_tensorboard()
 
         self.local_network = QNetwork(self.env,
                                       self.parameters).build_q_dense_from_json()
@@ -124,11 +125,17 @@ class DQNAgent:
         self.local_network.load(\
             self.agent_storage_path.joinpath("local_network.h5"))
 
-    def write_tensorboad(self,
-                         episode,
-                         mean_iterations,
-                         mean_total_reward,
-                         epsilon):
+    def write_parameters_tensorboard(self):
+
+        for key, value in self.parameters.items():
+            self.writer.add_text(key, '{}'.format(value))
+
+    def write_scalar_tensorboad(self,
+                                episode,
+                                mean_iterations,
+                                mean_total_reward,
+                                test_reward,
+                                epsilon):
 
         self.writer.add_scalar("Mean iterations",
                                mean_iterations,
@@ -136,6 +143,10 @@ class DQNAgent:
         self.writer.add_scalar("Mean Total Reward",
                                mean_total_reward,
                                episode)
+        if test_reward != None:
+            self.writer.add_scalar("Test Reward",
+                                   test_reward,
+                                   episode)
         self.writer.add_scalar("Epsilon", epsilon, episode)
 
     def test_play(self):

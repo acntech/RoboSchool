@@ -11,6 +11,7 @@ def train(agent, iterations, episodes, log=True):
 
         state = env.reset()
         total_reward = 0
+        test_reward = None
 
         if (episode != 0):
             agent.update_epsilon()
@@ -33,15 +34,17 @@ def train(agent, iterations, episodes, log=True):
         total_reward_list.append(total_reward)
         iterations_list.append(iteration +1)
 
-        if log:
-            agent.write_tensorboad(episode,
-                               mean(iterations_list),
-                               mean(total_reward_list),
-                               agent.epsilon)
-
-        if episode % 10 == 0:
+        if episode % 5 == 0:
             test_reward = agent.test_play()
 
+        if log:
+            agent.write_scalar_tensorboad(episode,
+                                          mean(iterations_list),
+                                          mean(total_reward_list),
+                                          test_reward,
+                                          agent.epsilon)
+
+        if episode % 10 == 0:
             print \
                 ("Episode: {} | Average iterations: {} | Average total reward: {} | Epsilon: {} | Test reward: {}" \
                   .format(episode, mean(iterations_list), mean(total_reward_list), agent.epsilon, test_reward))
