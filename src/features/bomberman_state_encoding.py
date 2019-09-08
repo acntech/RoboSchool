@@ -5,9 +5,13 @@ BOMB_MAX_TIME = 3
 BOARD_HEIGHT = 11
 BOARD_WIDTH = 15
 
-#TODO: Load in a config file or something isntead of having hard coded constants inside
-#TODO: Make this module compatible with conv nets aswell (dont remove walls, and dont flatten)
-#TODO: Send inn a dummy board and check for correctness (Visualize with ascii art, board class)
+# TODO: Load in a config file or something instead of having hard coded constants inside
+# TODO: Send inn a dummy board and check for correctness (Visualize with ascii art, board class)
+# TODO: Add powerup information (number of bombs and players speeds)
+# TODO: Figure out a way to encode movement (aka player 2 is moving west even though he is standing in position x right now)
+
+# Nice to have todos:
+# TODO: Make this module compatible with conv nets aswell (dont remove walls, and dont flatten)
 
 # LAYERS:
 # - Fire and danger (e.g 0 when bomb is placed -> progress to -1 as it approaches explosion, 1 for safe)
