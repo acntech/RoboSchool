@@ -23,7 +23,7 @@ def construct_flattened_images_state(bombs, fires, walls, agent, enemies, crates
     danger_image = construct_danger_image(bombs, fires, walls)
     env_image = construct_env_image(bonuses, crates, walls)
     agent_image = construct_agent_image(agent, walls)
-    adversary_image = construct_adversary_image(agent, enemies, walls)
+    adversary_image = construct_adversary_image(enemies, walls)
     state_vector = np.concatenate((danger_image, env_image, agent_image, adversary_image))
     return state_vector
 
