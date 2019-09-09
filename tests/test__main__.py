@@ -13,6 +13,6 @@ def test_main():
     episodes = 20
     iterations = 1
 
-    dqn_agent = DQNAgent(ENV_NAME)
+    dqn_agent = DQNAgent(ENV_NAME, param_file=ENV_NAME)
 
     train(dqn_agent, iterations, episodes, log=False)

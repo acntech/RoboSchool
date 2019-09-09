@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-tensorboard --logdir /src/agents/agent_storage
+tensorboard --logdir /RoboSchool/src/agents/agent_storage
