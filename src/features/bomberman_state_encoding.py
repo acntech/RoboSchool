@@ -29,25 +29,20 @@ def construct_images(bombs, fires, walls, player, enemies, crates, bonuses):
 def construct_danger_image(bombs, fires, walls):
     danger_image = np.ones(BOARD_HEIGHT, BOARD_WIDTH)
     for bomb in bombs:
-        x, y = bomb.position.x, bomb.position.y
-        timer = bomb.timer
-        str = bomb.strength
-
         # Mark danger in horizontal direction
-        danger_radius_left = max(x - str, 0)
-        danger_radius_right = min(x + str, BOARD_WIDTH - 1)
+        danger_radius_left = max(bomb.position.x - bomb.strength, 0)
+        danger_radius_right = min(bomb.position.x + bomb.strength, BOARD_WIDTH - 1)
         for x_disp in range(danger_radius_left, danger_radius_right):
-            danger_image[x_disp, y] = timer/BOMB_MAX_TIME - 1
+            danger_image[x_disp, bomb.postion.y] = bomb.timer/BOMB_MAX_TIME - 1
 
         # Mark danger in vertical direction
-        danger_radius_up = max(y - str, 0)
-        danger_radius_down = min(y + str, BOARD_HEIGHT - 1)
+        danger_radius_up = max(bomb.position.y - bomb.strength, 0)
+        danger_radius_down = min(bomb.position.y + bomb.strength, BOARD_HEIGHT - 1)
         for y_disp in range(danger_radius_up, danger_radius_down):
-            danger_image[x, y_disp] = timer/BOMB_MAX_TIME - 1
+            danger_image[bomb.position.x, y_disp] = bomb.timer/BOMB_MAX_TIME - 1
 
     for fire in fires:
-        x, y = fire.position.x, fire.position.y
-        danger_image[x, y] = -1
+        danger_image[fire.position.x, fire.position.y] = -1
         #TODO: Add representation for how long the fire will remain on the board
 
     # Flatten layer and remove wall tiles
@@ -59,9 +54,9 @@ def construct_danger_image(bombs, fires, walls):
 def construct_player_and_env_image(player, bonuses, crates, walls):
     player_and_env_image = np.zeros(BOARD_HEIGHT, BOARD_WIDTH)
     for crate in crates:
-        player_and_env_image[crate.player.position.x, crate.position.y] = 1
+        player_and_env_image[crate.position.x, crate.position.y] = 1
     for bonus in bonuses:
-        player_and_env_image[bonus.player.position.x, bonus.position.y] = 2
+        player_and_env_image[bonus.position.x, bonus.position.y] = 2
     player_and_env_image[player.position.x, player.position.y] = 3
 
     # Flatten layer and remove wall tiles
@@ -83,6 +78,5 @@ def remove_walls_from_image(walls, image_flatten):
     new_image = image_flatten
     for wall in walls:
         index = BOARD_WIDTH * wall.position.y + wall.position.x
-        new_image = np.delete(image_flatten, index)
-
+        new_image = np.delete(new_image, index)
     return new_image
