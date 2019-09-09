@@ -8,9 +8,9 @@ BOARD_WIDTH = 15
 # TODO: Load in a config file or something instead of having hard coded constants inside
 # TODO: Send inn a dummy board and check for correctness (Visualize with ascii art, board class)
 # TODO: Add powerup information (number of bombs and players speeds)
-# TODO: Figure out a way to encode movement (aka player 2 is moving west even though he is standing in position x right now)
 
 # Nice to have todos:
+# TODO: Figure out a way to encode movement (aka player 2 is moving west even though he is standing in position x right now)
 # TODO: Make this module compatible with conv nets aswell (dont remove walls, and dont flatten)
 
 # LAYERS:
@@ -43,7 +43,7 @@ def construct_danger_image(bombs, fires, walls):
         danger_radius_up = max(y - str, 0)
         danger_radius_down = min(y + str, BOARD_HEIGHT - 1)
         for y_disp in range(danger_radius_up, danger_radius_down):
-            danger_image[y_disp, y] = timer/BOMB_MAX_TIME - 1
+            danger_image[x, y_disp] = timer/BOMB_MAX_TIME - 1
 
     for fire in fires:
         x, y = fire.position.x, fire.position.y
@@ -79,10 +79,10 @@ def construct_enemy_image(enemies, walls):
 
     return enemy_image_flatten
 
-def remove_walls_from_image(walls, image):
-    new_image = image
+def remove_walls_from_image(walls, image_flatten):
+    new_image = image_flatten
     for wall in walls:
         index = BOARD_WIDTH * wall.position.y + wall.position.x
-        new_image = np.delete(image, index)
+        new_image = np.delete(image_flatten, index)
 
     return new_image
