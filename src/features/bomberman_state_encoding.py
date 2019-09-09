@@ -15,15 +15,16 @@ BOARD_WIDTH = 15
 
 # LAYERS:
 # - Fire and danger (e.g 0 when bomb is placed -> progress to -1 as it approaches explosion, 1 for safe)
-# - Agent, crates, bonus, empty tile (-1 for bonus, 0 for empty, 1 for create)
-# - Players and enemy players (-1 for enemy, 0 for empty tiles, 1 for player)
-# - Powerups ...
+# - Crates, bonus, empty tile (-1 for bonus, 0 for empty, 1 for create)
+# - The agent and enemy players (-1 for enemy, 0 for empty tiles, 1 for player)
+# - Powerups ... (not implemented)
 
-def construct_images(bombs, fires, walls, agent, enemies, crates, bonuses):
+def construct_flattened_images_state(bombs, fires, walls, agent, enemies, crates, bonuses):
     danger_image = construct_danger_image(bombs, fires, walls)
     env_image = construct_env_image(bonuses, crates, walls)
+    agent_image = construct_agent_image(agent, walls)
     adversary_image = construct_adversary_image(agent, enemies, walls)
-    state_vector = np.concatenate((danger_image, env_image, adversary_image))
+    state_vector = np.concatenate((danger_image, env_image, agent_image, adversary_image))
     return state_vector
 
 def construct_danger_image(bombs, fires, walls):
@@ -52,29 +53,36 @@ def construct_danger_image(bombs, fires, walls):
     return danger_image_flatten
 
 def construct_env_image(bonuses, crates, walls):
-    player_and_env_image = np.zeros(BOARD_HEIGHT, BOARD_WIDTH)
+    env_image = np.zeros(BOARD_HEIGHT, BOARD_WIDTH)
     for crate in crates:
-        player_and_env_image[crate.position.x, crate.position.y] = 1
+        env_image[crate.position.x, crate.position.y] = 1
     for bonus in bonuses:
-        player_and_env_image[bonus.position.x, bonus.position.y] = -1
+        env_image[bonus.position.x, bonus.position.y] = -1
 
     # Flatten layer and remove wall tiles
-    player_and_env_image_flatten = player_and_env_image.flatten()
-    player_and_env_image_flatten = remove_walls_from_image(walls, player_and_env_image_flatten)
+    env_image_flatten = env_image.flatten()
+    env_image_flatten = remove_walls_from_image(walls, env_image_flatten)
 
-    return player_and_env_image_flatten
+    return env_image_flatten
 
-def construct_adversary_image(agent, enemies, walls):
+def construct_adversary_image(enemies, walls):
     enemy_image = np.zeros(BOARD_HEIGHT, BOARD_WIDTH)
-    enemy_image[agent.position.x, agent.position.y] = 1
     for enemy in enemies:
-        enemy_image[enemy.position.x, enemy.position.y] = -1
+        enemy_image[enemy.position.x, enemy.position.y] = 1
     enemy_image_flatten= enemy_image.flatten()
     enemy_image_flatten = remove_walls_from_image(walls, enemy_image_flatten)
 
     return enemy_image_flatten
 
-def construct_powerup_vector(the_agent, enemies):
+def construct_agent_image(agent, walls):
+    agent_image = np.zeros(BOARD_HEIGHT, BOARD_WIDTH)
+    agent_image[agent.position.x, agent.position.y] = 1
+    agent_image_flatten= agent_image.flatten()
+    agent_image_flatten = remove_walls_from_image(walls, agent_image_flatten)
+
+    return agent_image_flatten
+
+def construct_powerup_vector(agent, enemies):
     raise NotImplemented()
 
 def remove_walls_from_image(walls, image_flatten):
