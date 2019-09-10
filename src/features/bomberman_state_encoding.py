@@ -1,12 +1,15 @@
-import src.entities
+from src.entities.bomb import Bomb
 import numpy as np
 
-BOMB_MAX_TIME = 3
-BOARD_HEIGHT = 11
-BOARD_WIDTH = 15
+BOMB_MAX_TIME = 5
+BOARD_HEIGHT = 8
+BOARD_WIDTH = 7
+
+# TODO: When inserting danger level, check if there is already a higher danger level in the square
+# TODO: When inserting danger, stop marking danger when you hit a wall/crate
+# TODO: Send inn a dummy board and check for correctness (Visualize with ascii art, board class)
 
 # TODO: Load in a config file or something instead of having hard coded constants inside
-# TODO: Send inn a dummy board and check for correctness (Visualize with ascii art, board class)
 # TODO: Add powerup information (number of bombs the agent has left and players speeds)
 
 # Nice to have todos:
@@ -28,22 +31,22 @@ def construct_flattened_images_state(bombs, fires, walls, agent, enemies, crates
     return state_vector
 
 def construct_danger_image(bombs, fires, walls):
-    danger_image = np.ones(BOARD_HEIGHT, BOARD_WIDTH)
+    danger_image = np.ones((BOARD_HEIGHT, BOARD_WIDTH))
     for bomb in bombs:
         # Mark danger in horizontal direction
         danger_radius_left = max(bomb.position.x - bomb.strength, 0)
         danger_radius_right = min(bomb.position.x + bomb.strength, BOARD_WIDTH - 1)
         for x_disp in range(danger_radius_left, danger_radius_right):
-            danger_image[x_disp, bomb.postion.y] = bomb.timer/BOMB_MAX_TIME - 1
+            danger_image[bomb.position.y, x_disp] = bomb.timer/BOMB_MAX_TIME - 1
 
         # Mark danger in vertical direction
         danger_radius_up = max(bomb.position.y - bomb.strength, 0)
         danger_radius_down = min(bomb.position.y + bomb.strength, BOARD_HEIGHT - 1)
         for y_disp in range(danger_radius_up, danger_radius_down):
-            danger_image[bomb.position.x, y_disp] = bomb.timer/BOMB_MAX_TIME - 1
+            danger_image[y_disp, bomb.position.x] = bomb.timer/BOMB_MAX_TIME - 1
 
     for fire in fires:
-        danger_image[fire.position.x, fire.position.y] = -1
+        danger_image[fire.position.y, fire.position.x] = -1
         #TODO: Add representation for how long the fire will remain on the board
 
     # Flatten layer and remove wall tiles
@@ -53,11 +56,11 @@ def construct_danger_image(bombs, fires, walls):
     return danger_image_flatten
 
 def construct_env_image(bonuses, crates, walls):
-    env_image = np.zeros(BOARD_HEIGHT, BOARD_WIDTH)
+    env_image = np.zeros((BOARD_HEIGHT, BOARD_WIDTH))
     for crate in crates:
-        env_image[crate.position.x, crate.position.y] = 1
+        env_image[crate.position.y, crate.position.x] = 1
     for bonus in bonuses:
-        env_image[bonus.position.x, bonus.position.y] = -1
+        env_image[bonus.position.y, bonus.position.x] = -1
 
     # Flatten layer and remove wall tiles
     env_image_flatten = env_image.flatten()
@@ -66,21 +69,27 @@ def construct_env_image(bonuses, crates, walls):
     return env_image_flatten
 
 def construct_adversary_image(enemies, walls):
-    enemy_image = np.zeros(BOARD_HEIGHT, BOARD_WIDTH)
+    enemy_image = np.zeros((BOARD_HEIGHT, BOARD_WIDTH))
     for enemy in enemies:
-        enemy_image[enemy.position.x, enemy.position.y] = 1
+        enemy_image[enemy.position.y, enemy.position.x] = 1
     enemy_image_flatten= enemy_image.flatten()
     enemy_image_flatten = remove_walls_from_image(walls, enemy_image_flatten)
 
     return enemy_image_flatten
 
 def construct_agent_image(agent, walls):
-    agent_image = np.zeros(BOARD_HEIGHT, BOARD_WIDTH)
-    agent_image[agent.position.x, agent.position.y] = 1
+    agent_image = np.zeros((BOARD_HEIGHT, BOARD_WIDTH))
+    agent_image[agent.position.y, agent.position.x] = 1
     agent_image_flatten= agent_image.flatten()
     agent_image_flatten = remove_walls_from_image(walls, agent_image_flatten)
 
     return agent_image_flatten
+
+def construct_wall_image(walls):
+    wall_image = np.zeros((BOARD_HEIGHT, BOARD_WIDTH))
+    for wall in walls:
+        wall_image[wall.position.y, wall.position.x] = 1
+    return wall_image
 
 def construct_powerup_vector(agent, enemies):
     raise NotImplemented()
