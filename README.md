@@ -35,7 +35,7 @@ You can log the training using a tensorboard object that logs the training resul
 
 To start tensorboard:
 
-``` tensorboard --logdir src/agents/agent_storage ```
+``` tensorboard --logdir /RoboSchool/src/agents/agent_storage ```
 
 This will start tensorboard on localhost:6006 from the runs folder
 
@@ -53,47 +53,6 @@ Setting up a docker volume, i.e. a dynamic connection between a folder on the lo
 
 https://github.com/Cyb3rWard0g/HELK/issues/79 
 
-### Omniboard and mongoDB
-
-Omniboard and mongo DB must be run and also be able to talk with each other. This can be obtained by starting them on the same docker network. First, create a new docker network or use an existing network
-
-``` docker network create omniboard-network ```
-
-We now have a network on which to run the docker containers. The mongodb and omniboard container should use the same docker network
-
-``` docker run --rm --name mongo-container --net omniboard-network -d mongo ```
-
-Then run the omniboard network 
-
-``` docker run --rm -d -p 9000:9000 --name omniboard --net=omniboard-network vivekratnavel/omniboard -m MONGODB_CONTAINER:27017:sacred ```
-
-
-### RL development environment
-
-To start up the RL environment with a jupyter notebook running, write:
-
-``` docker run --rm -it -v pwd:/notebooks -p 8888:8888 justheuristic/practical_rl ```
-
-Go to localhost:8888 and insert the token from the console to log in. A RL environment image has been made for this projects and can be run by 
-
-``` docker run --rm -it -p 8888:8888 fabiansd/rl-env bash ```
-
-You will then start up a linux container with all the necessary libraries installed. Here you can run python scripts and linux commands, and also start jupyter by typing
-
-``` sh /RoboSchool/src/run_jyputer.sh ```
-
-
-### Flask application
-
-The frontend application is implemented with a Flask app and docker image built from /Roboschool with
-
-``` docker build -f app/Dockerfile -t fabiansd/roboschool-app . ```
-
-The application can be started up by running:
-
-``` docker run --rm -d -p 9999:9999 fabiansd/roboschool-app ```
-
-Then go to localhost:9090 to see the frontend application
 
 ### Docker-compose
 
