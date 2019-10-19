@@ -10,8 +10,7 @@ def process_step_result(response: Dict[str, Any]) -> Tuple[Dict[str, Any], float
     """
     Takes the response from the frontend and decodes it into Tuple[Dict[str, Any], float, bool, Dict[str, Any]].
     """
-    # TODO: Check the return with frontend and write this function
-    return response['new_state'], response['reward'], response['done'], response['info']
+    return response['new_state'], response['event_list'], response['done'], response['info']
 
 
 class SocketClient:
@@ -21,12 +20,12 @@ class SocketClient:
     GET_STATE = "AI_GET_STATE"
     TRAIN = "AI_TRAIN"
     ACTIONS = {
-        "UP": 0,
-        "RIGHT": 1,
-        "DOWN": 2,
-        "LEFT": 3,
-        "DROP_BOMB": 4,
-        "DO_NOTHING": 5,
+        "UP": "up",
+        "RIGHT": "right",
+        "DOWN": "down",
+        "LEFT": "left",
+        "DROP_BOMB": "bomb",
+        "DO_NOTHING": "idle",
     }
 
     def __init__(self,
@@ -45,14 +44,17 @@ class SocketClient:
         port (int): The port to connect to on the server.
         callback (Callable): Any callback
         """
+        self.username = username
         self.ip = ip
         self.port = port
+        self.mode = mode
+
         self.alive = True
         self.gameStarted = False
         self.connected = False
-        self.username = username
+
         self.callback = callback
-        self.mode = mode
+        self.state = None
 
         self.sio = socketio.Client()
 
@@ -98,12 +100,12 @@ class SocketClient:
         ----------
         action (str): The requested action.
         It is defined as follows:
-            * 0: Up
-            * 1: Right
-            * 2: Down
-            * 3: Left
-            * 4: Drop bomb
-            * 5: Do nothing
+            * "up": Up
+            * "right": Right
+            * "down": Down
+            * "left": Left
+            * "bomb": Drop bomb
+            * "idle": Do nothing
 
         Returns:
         --------
@@ -116,36 +118,11 @@ class SocketClient:
         # TODO: Make API like commented line two lines below
         # 'step' means that the call requires a response
         # TODO in frontend
-        response = self.sio.call(event='step', data=dict(action = action.to_lower(), username = self.username))
+        response = self.sio.call(event='AI_STEP', 
+                                 data=dict(action = action.to_lower(), 
+                                           username = self.username, 
+                                           skip_frames=self.skip_frames))
         return process_step_result(response)
-
-
-    def set_rewards(self, rewards: Dict[str, Any]) -> None:
-        """
-        Set the reward values computed by the game engine.
-
-        :param rewards: A dict of rewards which can be e.g.
-            {
-                "kill": 100,
-                "die": -300,
-                "action": -1,
-                "win": 500,
-            }
-        :return:
-        """
-        # TODO in frontend
-        self.sio.emit("SET_REWARDS", rewards)
-
-    def set_n_skip_frames(self, n_frames: int):
-        """
-        Configure the game engine to skip frames before the next state is returned.
-
-        :param n_frames: Number of frames in each interval. This means that [n], (n+1), (n+2), ..., (n+n_frames-1),
-        [n+n_frames],..., will be an interval where [k] is the returned frames while (m) is the skipped frames.
-        :return:
-        """
-        # TODO in frontend
-        self.sio.emit("N_FRAMES_SKIP", n_frames)
 
     def reset(self) -> Dict[str, Any]:
         # TODO in frontend
