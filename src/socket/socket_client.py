@@ -32,8 +32,7 @@ class SocketClient:
                  username: str,
                  ip: str,
                  port: int,
-                 mode: str = "TRAIN",
-                 callback: Callable = lambda *args: None ):
+                 mode: str = "TRAIN",):
         """
         Create a socket client which can either play game or collect training data.
 
@@ -42,7 +41,6 @@ class SocketClient:
         username (str): Unique string identifying the player.
         ip (str): The ip of the socket.io server to connect to.
         port (int): The port to connect to on the server.
-        callback (Callable): Any callback
         """
         self.username = username
         self.ip = ip
@@ -53,38 +51,22 @@ class SocketClient:
         self.gameStarted = False
         self.connected = False
 
-        self.callback = callback
         self.state = None
 
         self.sio = socketio.Client()
 
+        # Finally connect
+        self.connect()
+
         @self.sio.on('connect')
-        def connect():
+        def connected():
             self.connected = True
             print('connected')
 
         @self.sio.on('disconnect')
-        def disconnect():
+        def disconnected():
             self.connected = False
             print('disconnected')
-
-        @self.sio.on('AI_STATE')
-        def evaluateState(data):
-            self.callback(data)
-
-        @self.sio.on('GAME_START')
-        def startGame(data):
-            self.gameStarted = True
-
-        @self.sio.on('GAME_OVER')
-        def startGame(data):
-            print("{} won!".format(data["winner"]))
-
-        @self.sio.on('PLAYER_DEAD')
-        def amIDead(data):
-            if data["username"] == self.username:
-                print("Oh no {} died!".format(data["username"]))
-                self.alive = False
 
     def connect(self):
         self.sio.connect("http://" + self.ip + ":" + str(self.port))
@@ -92,7 +74,7 @@ class SocketClient:
         if self.mode == "TRAIN":
             self.sio.emit(self.TRAIN, {'username': self.username})
 
-    def step(self, action: str) -> Tuple[Dict[str, Any], float, bool, Dict[str, Any]]:
+    def step(self, action: str, skip_frames=1) -> Tuple[Dict[str, Any], float, bool, Dict[str, Any]]:
         """
         Make an action (send to server) and get the next state, reward, done, and info.
 
@@ -109,7 +91,7 @@ class SocketClient:
 
         Returns:
         --------
-        Tuple[Dict[str, Any], float, bool, Dict[str, Any]]: Returns a tuple of (next_state, reward, done, info).
+        Tuple[Dict[str, Any], float, bool, Dict[str, Any]]: Returns a tuple of (next_state, event_list, done, info).
 
         Raises:
         -------
@@ -121,7 +103,7 @@ class SocketClient:
         response = self.sio.call(event='AI_STEP', 
                                  data=dict(action = action.to_lower(), 
                                            username = self.username, 
-                                           skip_frames=self.skip_frames))
+                                           skip_frames=skip_frames))
         return process_step_result(response)
 
     def reset(self) -> Dict[str, Any]:

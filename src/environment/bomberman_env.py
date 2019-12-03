@@ -3,13 +3,14 @@ import re
 import gym
 from typing import Dict, Any, Tuple
 
+
 class BombermanEnv(gym.Env):
     def __init__(self,
                  mode: str = "TRAIN",
                  config: Dict,
                  username: str = "AIUser",
                  n_skip_frames: int = 1,
-                 position: str="lower_left",):
+                 position: str = "lower_left",):
         """
         Create a Bomberman environment.
 
@@ -26,12 +27,12 @@ class BombermanEnv(gym.Env):
         self.n_skip_frames = n_skip_frames
         ip, port = config.get("ip"), config.get("port")
         self._rewards = config.get("rewards",
-                             dict(
-                                 action=-1,
-                                 kill=100,
-                                 die=-300,
-                                 win=400
-                             ))
+                                   dict(
+                                       action=-1,
+                                       kill=100,
+                                       die=-300,
+                                       win=400
+                                   ))
         self.username = username
         self.client = SocketClient(self.username, ip, port, mode)
         # TODO: Check if a waiting period is needed here
@@ -62,7 +63,7 @@ class BombermanEnv(gym.Env):
         reward = self.compute_reward(event_list)
         # Check if the player died
         if self.alive == False:
-            done = False
+            done = True
         return new_state, reward, done, info
 
     def compute_reward(event_list: List[str]) -> float:
@@ -77,12 +78,15 @@ class BombermanEnv(gym.Env):
         """
         reward = 0.0
         regexes = dict(crate_destroyed=re.compile(r"Crate destroyed by player([^\s])"),
-                kill=re.compile(r"([^\s]) killed by ([^\s])"),
-                invalid_wall=re.compile(r"Invalid step towards wall tried by ([^\s])"),
-                invalid_bomb=re.compule(r"Invalid step towards bomb tried by ([^\s])"),
-                game_won=re.compile(r"The game is won by ([^\s])"),
-                bonus=re.compile(r"Bonus ([^\s]) aquired by ([^\s])")
-                )
+                       kill=re.compile(r"([^\s]) killed by ([^\s])"),
+                       invalid_wall=re.compile(
+                           r"Invalid step towards wall tried by ([^\s])"),
+                       invalid_bomb=re.compule(
+                           r"Invalid step towards bomb tried by ([^\s])"),
+                       game_won=re.compile(r"The game is won by ([^\s])"),
+                       bonus=re.compile(r"Bonus ([^\s]) aquired by ([^\s])")
+                       )
+        n_regexes = len(regexes)
         # Iterate through the event list
         for event in event_list:
             # Iterate through the regexes classifying events
@@ -103,6 +107,7 @@ class BombermanEnv(gym.Env):
                         assert p1 != p2
                         # Check if it is this player who died
                         if p1 == self.username:
+                            # Set status to dead
                             self.alive = False
                             reward += this._event_type_reward("die")
                         # Check if it is this player who killed
@@ -115,6 +120,12 @@ class BombermanEnv(gym.Env):
                         if player == self.username:
                             reward += this._event_type_reward("bonus", bonus)
                     break
+                else:
+                    wrong_regexes += 1
+                # Check if there was no match for any of the events in the list
+                if wrong_regexes == n_regexes
+                    raise ValueError(
+                        f"Event {event} was not in the list of known events. (No match)")
         return reward
 
     def _event_type_reward(key, bonus=None) -> float:
@@ -139,7 +150,8 @@ class BombermanEnv(gym.Env):
             elif bonus == "bomb":
                 return self._rewards.get("bonus", dict()).get("bomb", 10.0)
             else:
-                raise KeyError(f"Expected bonus of one of 'fire', 'speed', 'bomb'. Got {bonus}")
+                raise KeyError(
+                    f"Expected bonus of one of 'fire', 'speed', 'bomb'. Got {bonus}")
         else:
-            raise KeyError(f"Expected one of invalid_wall, invalid_bomb, game_won, die, kill or bonus. Got {key}")
-
+            raise KeyError(
+                f"Expected one of invalid_wall, invalid_bomb, game_won, die, kill or bonus. Got {key}")
